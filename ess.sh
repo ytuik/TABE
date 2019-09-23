@@ -9,3 +9,6 @@ cd teachingassistant/
 
 git checkout -b SaaS1 e670da4c7dda011225d4a6942149cfdcde6e8667
 git reset --hard e670da4c7dda011225d4a6942149cfdcde6e8667
+
+ng new BibPET-gui
+npm start
