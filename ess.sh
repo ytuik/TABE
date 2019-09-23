@@ -1,7 +1,7 @@
 mkdir ESS
 cd ESS
 npm install @angular/cli
-caminho="$pwd/node_modules/@angular/cli/bin"
+caminho="$(pwd)/node_modules/@angular/cli/bin"
 PATH=$PATH:$caminho
 
 git clone https://github.com/pauloborba/teachingassistant
