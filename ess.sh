@@ -15,6 +15,7 @@ git reset --hard e670da4c7dda011225d4a6942149cfdcde6e8667
 # Tenho que ajustar o PATH (olhar parte comentada)
 
 ng new BibPET-gui
+cd BibPET-gui
 npm start
 
 
