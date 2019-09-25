@@ -4,7 +4,11 @@ mkdir ESS
 cd ESS
 npm install @angular/cli
 caminho="$(pwd)/node_modules/@angular/cli/bin"
-PATH=$PATH:$(caminho)
+#PATH=$PATH:$(caminho)
+
+tempPATH=$PATH:$caminho
+echo $"export PATH=$PATH:$tempPATH" >> ~/.bashrc
+source ~/.bashrc
 
 git clone https://github.com/pauloborba/teachingassistant
 cd teachingassistant/
@@ -24,8 +28,16 @@ npm start
 
 ##PATH=$PATH:$caminho
 ##echo "Path atualizado:$PATH"
-#tempPATH=$PATH:$caminho
 #echo $tempPATH
 #PATH=""
-##echo $"export PATH=$PATH:$tempPATH" >> ~/.bashrc
-#source ~/.bashrc
+
+#################################
+########## PATH PADRAO ##########
+#################################
+# /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/sbin:/usr/sbin:/sbin
+
+#################################
+######### PATH DESEJADO #########
+#################################
+# /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/local/sbin:/usr/sbin:/sbin:/home/CIN/vss2/TABE/ESS/node_modules/@angular/cli/bin
+
