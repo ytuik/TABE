@@ -10,7 +10,7 @@ tempPATH=$PATH:$caminho
 echo $"export PATH=$PATH:$tempPATH" >> ~/.bashrc
 source ~/.bashrc
 
-git clone https://github.com/pauloborba/teachingassistant
+git clone https://github.com/vss-2/teachingassistant
 cd teachingassistant/
 
 git checkout -b SaaS1 e670da4c7dda011225d4a6942149cfdcde6e8667
