@@ -39,8 +39,30 @@ app.get('/criarBD', (req, res) => {
 
 // Cria tabelas
 app.get('/criarTabelas', (req, res) => {
-	let sql = 'CREATE TABLE prods(id int AUTO_INCREMENT, nome VARCHAR(255), descricao VARCHAR(255) PRIMARY KEY id)';
+	let sql = 'CREATE TABLE prods(id int AUTO_INCREMENT, nome VARCHAR(255), descricao VARCHAR(255) PRIMARY KEY (id))';
+	db.query(sql, (err, result)
 });
+	
+// Selecionar produtos
+app.get('/getProdutos', (req, res) => {
+	let sql = 'SELECT * FROM prods';
+	let query = db.querry(sql, (err, results) => {
+		if(err) throw err;
+		console.log(results);
+		res.send('Produtos exibidos...');
+	});
+});
+
+// Metodo POST para SQL
+app.get('/adicionarProduto', (req, res) => {
+	let prod = {nome: "Camisa", descricao: "Tecido de algodao"};
+	let sql = 'INSERT INTO prods SET ?';
+	let query = db.query(sql, post, (err, result) => {
+		if(err) throw err;
+		console.log(result);
+		res.send('Produto 1 adicionado...');
+	}
+});	
 
 app.get('/', (req, res) => {
 	res.send('Ola mundo!');
