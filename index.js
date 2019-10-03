@@ -1,8 +1,46 @@
+/* Para instalar:
+*  npm install -g nodemon
+*  npm install @hapi/joi express mysql
+*  Para rodar:
+*  npm init (depois preencher os dados)
+*  (estando na pasta da aplicacao) nodemon
+*/
+const mysql = require('mysql');
 const Joi = require('joi');
 const express = require('express');
 const aplicacao = require('express');
 
+// Config do banco de dados
+const db = mysql.createConnection({
+	host: 'localhost',
+	user: 'admin',
+	password: '12345789'
+});
+
+db.connect((err) => {
+	if(err){
+		throw err;
+	}
+	
+	console.log('Conectado ao MySQL');
+});
+
 aplicacao.use(express.json())
+
+// Cria o banco de dados
+app.get('/criarBD', (req, res) => {
+	let sql = 'CREATE DATABASE mysql_db';
+	db.querry(sql, (err, result) => {
+		if(err) throw err;
+		console.log(result);
+		res.send('Database criada com sucesso!');
+	}
+});
+
+// Cria tabelas
+app.get('/criarTabelas', (req, res) => {
+	let sql = 'CREATE TABLE prods(id int AUTO_INCREMENT, nome VARCHAR(255), descricao VARCHAR(255) PRIMARY KEY id)';
+});
 
 app.get('/', (req, res) => {
 	res.send('Ola mundo!');
