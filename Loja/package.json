@@ -1,0 +1,22 @@
+{
+  "name": "loja",
+  "version": "0.0.1",
+  "description": "Loja catalogo de produtos",
+  "main": "index.js",
+  "dependencies": {
+    "@hapi/joi": "^16.1.5",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1",
+    "npx": "^10.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vss-2"
+  },
+  "author": "Vitor Sousa",
+  "license": "ISC"
+}
