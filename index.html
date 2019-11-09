@@ -1,0 +1,110 @@
+<html>
+
+  <head>
+	    <title>@bmgs e @vss2</title>
+  </head>
+
+
+	  <!--
+	    <button onclick="clear()"> Limpar </button>
+      <br>
+		  Pontos de Controle: <input type="checkbox" id="PConcheckbox" onclick="myFunction()">
+		  Poligonais de Curva: <input type="checkbox" id="PCurcheckbox" onclick="myFunction()">
+		  Curvas: <input type="checkbox" id="Curcheckbox" onclick="myFunction()">
+      <br>
+
+    -->  
+    
+    
+  <body>
+	    <canvas onclick="drawPoint()" id="meuCanvas" width="300" height="300" style="border:3px solid #000000;"></canvas>
+  </body>
+
+  <script>
+
+    var pontosDeControle = true;
+    var poligonaisDeControle = true;
+    var curvas = true;
+
+    var canvasWidth = 300;
+    var canvasHeight = 300;
+
+    var canvas = document.getElementById("meuCanvas");
+
+    var context = canvas.getContext("2d");
+    var rect = canvas.getBoundingClientRect();
+        
+
+    function controlePontos(){
+      var checkBox = document.getElementById("PConcheckbox");
+
+      if (checkBox.checked == true){
+        mostrarPontos(true)
+      } else {
+        mostrarPontos(false)
+      }
+    }
+
+    function controleDePoligonais(){
+      var checkBox = document.getElementById("PCurcheckbox");
+
+      if (checkBox.checked == true){
+        mostrarPoligonais(true)
+      } else {
+        mostrarPoligonais(false)
+      }
+    }
+
+    function controleDeCurva(){
+      var checkBox = document.getElementById("Curcheckbox");
+
+      if (checkBox.checked == true){
+        mostrarCurva(true)
+      } else {
+        mostrarCurva(false)
+      }
+    }
+
+    function drawLine(){
+      context.beginPath();
+      context.moveTo(x1, y2);
+      context.lineTo(x2, y2);
+      context.stroke();
+    }
+
+    function pritagemTeste(){
+      console.log("Teste");
+    }
+
+    function clear(){
+      // Limpa o canvas após botão ser apertado
+      console.log("Foi solicitada uma limpeza do canvas!");
+      context.clearRect(100, 100, 299, 299);
+    }
+    
+    function drawPoint(){
+      let xClick = event.clientX - rect.left;
+      let yClick = event.clientY - rect.top;
+
+      // Click = coordenadas de onde você apertou na tela
+      // console.log(xClick, yClick);
+
+      context.beginPath();
+      context.arc(xClick, yClick, 1, 0, 2 * Math.PI, true);
+
+      // Há 3 jeitos de montar o ponto, esse acima é usando o circulo, como visto em:
+      // https://stackoverflow.com/questions/7812514/drawing-a-dot-on-html5-canvas
+
+
+      // Preenchendo e contornando de preto
+      context.fillStyle = "#000000";
+      context.fill();
+      context.stroke();
+      
+    }
+
+  </script>
+
+</html>
+
+
