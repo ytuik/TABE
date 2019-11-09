@@ -34,14 +34,13 @@
     var context = canvas.getContext("2d");
     var rect = canvas.getBoundingClientRect();
         
-
     function controlePontos(){
       var checkBox = document.getElementById("PConcheckbox");
 
       if (checkBox.checked == true){
-        mostrarPontos(true)
+        return true;
       } else {
-        mostrarPontos(false)
+        return false;
       }
     }
 
@@ -49,9 +48,9 @@
       var checkBox = document.getElementById("PCurcheckbox");
 
       if (checkBox.checked == true){
-        mostrarPoligonais(true)
+        return true;
       } else {
-        mostrarPoligonais(false)
+        return false;
       }
     }
 
@@ -59,9 +58,9 @@
       var checkBox = document.getElementById("Curcheckbox");
 
       if (checkBox.checked == true){
-        mostrarCurva(true)
+        return true;
       } else {
-        mostrarCurva(false)
+        return false;
       }
     }
 
