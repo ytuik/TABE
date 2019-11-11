@@ -23,6 +23,8 @@ function comeco(){
   } else {
     // Para de desenhar, está "Parar Curva", desenha a linha
     document.getElementById("nCButton").value = "Nova Curva";
+    // Lembrar de trocar de reta, para a proxima
+    comecoBool = false;
     drawLine(arrayPontos);
   }
 }
