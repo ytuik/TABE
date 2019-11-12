@@ -172,6 +172,7 @@ function anteriorReta(){
         for(let pontos = 0; pontos < array[reta].length; pontos++){
           drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
         }
+	drawLineSelect(arrayPontos);
       }
     }
   }
