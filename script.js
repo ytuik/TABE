@@ -126,11 +126,33 @@ function proximaReta(){
   if(retaSelect < array.length){
     retaSelect++;
   }
+  limparTela();
+  for(let reta = 0; reta < array.length; reta++){
+    if (reta != retaSelect){
+      drawLine(array[reta]);
+    } else {
+      for(let pontos = 0; pontos < array[reta].length; pontos++){
+        drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
+      }
+      drawLineSelect(arrayPontos);
+    }
+  }
 }
 
 function anteriorReta(){
   if(retaSelect > 0){
     retaSelect--;
+  }
+  limparTela();
+  for(let reta = 0; reta < array.length; reta++){
+    if (reta != retaSelect){
+      drawLine(array[reta]);
+    } else {
+      for(let pontos = 0; pontos < array[reta].length; pontos++){
+        drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
+      }
+      drawLineSelect(arrayPontos);
+    }
   }
 }
 
@@ -139,5 +161,5 @@ function limparTela(){
   context.beginPath();
   context.fillRect(0,0,400,400);
   context.stroke();
-  context.strokeStyle = '#000000';
+  //context.strokeStyle = '#000000';
 }
