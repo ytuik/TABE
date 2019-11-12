@@ -16,16 +16,31 @@ function comeco(){
   let estadoAtual = document.getElementById("nCButton").value;
 
   if(estadoAtual == "Nova Curva" && pontoAtual == undefined){
-    // Nao faz nada até apertar "Nova Curva", primeiro ponto dessa curva
+    // Caso: Nao faz nada até apertar "Nova Curva", primeiro ponto dessa curva
+
   } else if (estadoAtual == "Nova Curva") {
-    // Pode começar a desenhar, nova reta a ser criada
+    // Caso: Pode começar a desenhar, nova reta a ser criada
+
+    // Nova reta, reset de pontos
+    retaAtual++;
+    arrayPontos = []
+    
     document.getElementById("nCButton").value = "Parar Curva";
+
   } else {
-    // Para de desenhar, está "Parar Curva", desenha a linha
+    // Caso: Para de desenhar, botão está "Parar Curva", desenha a linha
+
     document.getElementById("nCButton").value = "Nova Curva";
-    // Lembrar de trocar de reta, para a proxima
+    
+    // Trava a canvas para nao desenhar mais enquanto nao aperta "Nova Curva"
     comecoBool = false;
+
+    // Lembrando que ao final, tem que redesenhar TUDO, ou seja, FOR de FOR para resenhar pontos e linhas
+    //limparTela();
+
+    //for(let a = 0; a < array.length; a++){
     drawLine(arrayPontos);
+    //}
   }
 }
 
@@ -33,7 +48,7 @@ function mux(){
   // 1 = botao esquerdo
   // 3 = botao direito
   if (event.which == 1 && comecoBool == true){
-	  let xClick = event.clientX - rect.left;
+	let xClick = event.clientX - rect.left;
     let yClick = event.clientY - rect.top;
 
     arrayPontos.push({x: xClick, y: yClick});
@@ -55,7 +70,7 @@ function mux(){
 
 function drawPoint(x, y){ 
   context.beginPath();
-  context.arc(x, y, 1, 0, 2 * Math.PI, true);
+  context.arc(x, y, 3, 0, 2 * Math.PI, true);
   context.moveTo(x, y);
   context.fill();
   context.stroke();
@@ -63,13 +78,22 @@ function drawPoint(x, y){
 
 function drawLine(arrayPontos){
   for(r = 1; r < arrayPontos.length; r++){
-    let x2 = arrayPontos[r].x;
-    let y2 = arrayPontos[r].y;
-    context.moveTo(arrayPontos[r-1].x, arrayPontos[r-1].y);
+    let x2 = arrayPontos[r-1].x;
+    let y2 = arrayPontos[r-1].y;
+    context.moveTo(arrayPontos[r].x, arrayPontos[r].y);
     context.lineTo(x2, y2);
     context.strokeStyle = "#000000";
     context.fill();
     context.stroke();
   }
 
+}
+
+
+function limparTela(){
+  context.fillStyle = "#FFFFFF";
+  context.beginPath();
+  context.fillRect(0,0,400,400);
+  context.stroke();
+  context.strokeStyle = '#000000';
 }
