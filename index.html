@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="utf-8">
-	<title>@bmgs e @vss2</title>
+	<head>
+		<meta charset="utf-8">
+		<title>@bmgs e @vss2</title>
 
-</head>
+	</head>
 
-<body>
-	<canvas id="meuCanvas" width="400" height="400" style="border:3px solid #000000;"></canvas>
-  Pontos de Controle: <input type="checkbox" id="PConcheckbox" checked> <br>
-	Poligonais de Curva: <input type="checkbox" id="PCurcheckbox" checked> <br>
-	Curvas: <input type="checkbox" id="Curcheckbox"  checked> <br>
-  <input type="button" id="nCButton" onClick="comeco()" value="Nova Curva"> 
-  <input type="button" id="antRetaButton" onClick="anteriorReta()" value="Reta Anterior">
-  <input type="button" id="prxRetaButton" onClick="proximaReta()" value="Proxima Reta">
-	<script src="script.js"> </script>
-  <br>
+	<body>
+		<canvas id="meuCanvas" width="400" height="400" style="border:3px solid #000000;"></canvas>
+		<br>
 
-  </body>
+		Pontos de Controle: <input type="checkbox" id="PConcheckbox" checked> <br>
+		Poligonais de Curva: <input type="checkbox" id="PCurcheckbox" checked> <br>
+		Curvas: <input type="checkbox" id="Curcheckbox"  checked> <br>
+		<input type="button" id="nCButton" onClick="comeco()" value="Nova Curva"> 
+		<input type="button" id="antRetaButton" onClick="anteriorReta()" value="Reta Anterior">
+		<input type="button" id="prxRetaButton" onClick="proximaReta()" value="Proxima Reta">
+		<input type="button" id="limparTelaButton" onClick="limparTela()" value="Limpar Tela">
+		<script src="script.js"> </script>
+		
+		<br>
+
+	</body>
 </html>
