@@ -123,18 +123,18 @@ function drawLineSelect(arrayPontos){
 }
 
 function proximaReta(){
-  if(retaSelect < array.length){
+  if(retaSelect < array.length -1){
     retaSelect++;
-  }
-  limparTela();
-  for(let reta = 0; reta < array.length; reta++){
-    if (reta != retaSelect){
-      drawLine(array[reta]);
-    } else {
-      for(let pontos = 0; pontos < array[reta].length; pontos++){
-        drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
+    limparTela();
+    for(let reta = 0; reta < array.length; reta++){
+      if (reta != retaSelect){
+        drawLine(array[reta]);
+      } else {
+        for(let pontos = 0; pontos < array[reta].length; pontos++){
+          drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
+        }
+        drawLineSelect(arrayPontos);
       }
-      drawLineSelect(arrayPontos);
     }
   }
 }
@@ -142,16 +142,16 @@ function proximaReta(){
 function anteriorReta(){
   if(retaSelect > 0){
     retaSelect--;
-  }
-  limparTela();
-  for(let reta = 0; reta < array.length; reta++){
-    if (reta != retaSelect){
-      drawLine(array[reta]);
-    } else {
-      for(let pontos = 0; pontos < array[reta].length; pontos++){
-        drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
+    limparTela();
+    for(let reta = 0; reta < array.length; reta++){
+      if (reta != retaSelect){
+        drawLine(array[reta]);
+      } else {
+        for(let pontos = 0; pontos < array[reta].length; pontos++){
+          drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
+        }
+        drawLineSelect(arrayPontos);
       }
-      drawLineSelect(arrayPontos);
     }
   }
 }
@@ -161,7 +161,5 @@ function limparTela(){
   context.beginPath();
   context.fillRect(0,0,400,400);
   context.stroke();
-  array = []
-  arrayPontos = []
-  context.strokeStyle = '#000000';
+  //context.strokeStyle = '#000000';
 }
