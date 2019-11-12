@@ -161,5 +161,7 @@ function limparTela(){
   context.beginPath();
   context.fillRect(0,0,400,400);
   context.stroke();
-  //context.strokeStyle = '#000000';
+  array = []
+  arrayPontos = []
+  context.strokeStyle = '#000000';
 }
