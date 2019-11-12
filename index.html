@@ -11,13 +11,15 @@
 		<canvas id="meuCanvas" width="400" height="400" style="border:3px solid #000000;"></canvas>
 		<br>
 
-		Pontos de Controle: <input type="checkbox" id="PConcheckbox" checked> <br>
-		Poligonais de Curva: <input type="checkbox" id="PCurcheckbox" checked> <br>
-		Curvas: <input type="checkbox" id="Curcheckbox"  checked> <br>
+		Pontos de Controle:  <input type="checkbox" name="check1" id="PConcheckbox" onchange="mudou()" checked> <br>
+		Poligonais de Curva: <input type="checkbox" name="check2" id="PCurcheckbox" onchange="mudou()" checked> <br>
+		Curvas:              <input type="checkbox" name="check3" id="Curcheckbox"  onchange="mudou()" checked> <br>
 		<input type="button" id="nCButton" onClick="comeco()" value="Nova Curva"> 
 		<input type="button" id="antRetaButton" onClick="anteriorReta()" value="Reta Anterior">
 		<input type="button" id="prxRetaButton" onClick="proximaReta()" value="Proxima Reta">
 		<input type="button" id="limparTelaButton" onClick="limparTela()" value="Limpar Tela">
+		<br>
+		Quantidade de Avaliações: <input type="text"   id="numAvaliacao" value=15>
 		<script src="script.js"> </script>
 		
 		<br>
