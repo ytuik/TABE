@@ -94,8 +94,8 @@ function drawPointSelect(x, y){
   context.arc(x, y, 3, 0, 2 * Math.PI, true);
   context.moveTo(x, y);
   context.fill();
-  context.strokeStyle = "#00FF00";
   context.stroke();
+  context.strokeStyle = "#00FF00";
 }
 
 function drawLine(arrayPontos){
@@ -125,7 +125,7 @@ function drawLineSelect(arrayPontos){
 function proximaReta(){
   if(retaSelect < array.length -1){
     retaSelect++;
-    limparTela();
+    mudarCurva();
     for(let reta = 0; reta < array.length; reta++){
       if (reta != retaSelect){
         drawLine(array[reta]);
@@ -142,24 +142,34 @@ function proximaReta(){
 function anteriorReta(){
   if(retaSelect > 0){
     retaSelect--;
-    limparTela();
+    mudarCurva();
     for(let reta = 0; reta < array.length; reta++){
       if (reta != retaSelect){
         drawLine(array[reta]);
       } else {
+        drawLineSelect(array[reta]);
         for(let pontos = 0; pontos < array[reta].length; pontos++){
           drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
         }
-        drawLineSelect(arrayPontos);
       }
     }
   }
+}
+
+function mudarCurva(){
+  context.fillStyle = "#FFFFFF";
+  context.beginPath();
+  context.fillRect(0,0,400,400);
+  context.stroke();
+  context.strokeStyle = '#000000';
 }
 
 function limparTela(){
   context.fillStyle = "#FFFFFF";
   context.beginPath();
   context.fillRect(0,0,400,400);
+  array = []
+  arrayPontos = []
   context.stroke();
-  //context.strokeStyle = '#000000';
+  context.strokeStyle = '#000000';
 }
