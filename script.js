@@ -60,7 +60,7 @@ function comeco(){
           drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
         }
         drawLineSelect(arrayPontos);
-        deCasteljau();
+        //deCasteljau();
       }
     }
   }
@@ -79,14 +79,6 @@ function mux(){
     drawPoint(xClick, yClick);
    
   }
-  /* if(comecoBool){
-      console.log("aaaaa")
-      if(arrayPontos[retaAtual].length > 1){
-        drawLine(array[retaAtual]);
-      }
-      comecoBool = false;
-    }
-  */
 }
 
 
@@ -98,6 +90,7 @@ function drawPoint(x, y){
     context.moveTo(x, y);
     context.fill();
     context.stroke();
+    context.strokeStyle = "#000000";
   }
 }
 
@@ -150,11 +143,15 @@ function proximaReta(){
     for(let reta = 0; reta < array.length; reta++){
       if (reta != retaSelect){
         drawLine(array[reta]);
+        for(let pontos = 0; pontos < array[reta].length; pontos++){
+          drawPoint(array[reta][pontos].x, array[reta][pontos].y);
+        }
       } else {
+        drawLineSelect(array[retaSelect]);
         for(let pontos = 0; pontos < array[reta].length; pontos++){
           drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
         }
-        drawLineSelect(arrayPontos);
+        console.log(array[retaSelect]);
       }
     }
   }
@@ -167,12 +164,15 @@ function anteriorReta(){
     for(let reta = 0; reta < array.length; reta++){
       if (reta != retaSelect){
         drawLine(array[reta]);
+        for(let pontos = 0; pontos < array[reta].length; pontos++){
+          drawPoint(array[reta][pontos].x, array[reta][pontos].y);
+        }
       } else {
         drawLineSelect(array[reta]);
+        drawLineSelect(array[retaSelect]);
         for(let pontos = 0; pontos < array[reta].length; pontos++){
           drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
         }
-	drawLineSelect(arrayPontos);
       }
     }
   }
@@ -239,7 +239,7 @@ function deCasteljau(){
       var novoContext = novoCanvas.getContext("2d");
 
       novoContext.beginPath();
-      novoContext.moveTo(arrayCurva[0], arrayCurva[1]);
+      novoContext.moveTo(arrayCurva[0].x, arrayCurva[0].y);
 
       for(var i = 0; i <= 1; i+=(1/numAvalia)){
         
@@ -256,17 +256,6 @@ function deCasteljau(){
         }
 
       }
-
-      // Isso aqui provavelmente ajeita algum bug, comentei
-      // if(retaAtual == k){
-      //   context.strokeStyle = '#0084ff';
-      //   context.lineTo(pontosBezier[0], pontosBezier[1]);
-      //   context.stroke();
-      // } else {
-      //   context.strokeStyle = '#000000';
-      //   context.lineTo(pontosBezier[0], pontosBezier[1]);
-      //   context.stroke();
-      // }
     }
   }
 }
@@ -280,11 +269,11 @@ function mudou(){
         drawPoint(array[reta][pontos].x, array[reta][pontos].y);
       }
     } else {
+      drawLineSelect(array[reta]);
       for(let pontos = 0; pontos < array[reta].length; pontos++){
         drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
       }
-      drawLineSelect(arrayPontos);
-      deCasteljau();
+      //deCasteljau();
     }
   }
 }
