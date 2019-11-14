@@ -83,19 +83,19 @@ function drawLine(){
   let ativadoPoligonais = document.getElementById("PCurcheckbox");
   if(ativadoPoligonais["checked"]){
     for(let a = 0; a < array.length; a++){
+      context.moveTo(array[a][0].x, array[a][0].y);
       for(let b = 1; b < array[a].length - 1; b++){
-        context.moveTo(array[a][b-1].x, array[a][b-1].y);
         if(a != retaSelect){                                     // Estamos na reta com cores diferentes
           context.strokeStyle = "#000000";                       // Ponto selecionado tem cor verde
           context.beginPath();
-          let x2 = array[a][b].x; let y2 = array[a][b].y;    // Faz a linha voltando
-          context.lineTo(x2, y2);
+          let x2 = array[a][b-1].x; let y2 = array[a][b-1].y;        // Faz a linha voltando
+          context.lineTo(50, 50);
           context.stroke();
         } else {
           context.strokeStyle = "#0000FF";                       // Ponto selecionado tem cor preta
           context.beginPath();
           let x2 = array[a][b-1].x; let y2 = array[a][b-1].y;    // Faz a linha voltando
-          context.lineTo(x2, y2);
+          context.lineTo(50, 50);
           context.stroke();
         }
       }
@@ -152,14 +152,14 @@ function curvaBezier(arrayPontos, k){
   return curva;
 }
 
-function deCasteljau(arrayInput, ref){
+function deCasteljau(){
   pontosCas = [];
   let ativadoCurva = document.getElementById("Curcheckbox");
   if(ativadoCurva["checked"]){
-    arrayCurva = arrayInput;
-
+    
     for(var k = 0; k < arrayPontos.length; k++){
-
+      
+      arrayCurva = arrayInput;
       var canvas  = document.getElementById("meuCanvas");
       var context = canvas.getContext("2d");
       context.beginPath();
@@ -198,6 +198,8 @@ function mudou(){
 }
 
 function redesenharTudo(){                                  // ref, referencial = -1 se não for nenhuma; qualquer outro valor é a reta selecionada
+  let estadoAtual = document.getElementById("nCButton").value;
+  if(estadoAtual == "Parar Curva") return;
   context.fillStyle = "#FFFFFF";
   context.beginPath();
   context.fillRect(0,0,400,400);
