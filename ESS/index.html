@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>@bmgs e @vss2</title>
+
+	</head>
+
+	<body onclick="mudou()">
+	    <canvas onclick="criandoReta()" id="meuCanvas" width="400" height="400" style = "border: 3px solid#000000;"></canvas>
+	    <br>
+	    Pontos de Controle:  <input type="checkbox" name="check1" id="PConcheckbox" checked> <br>
+	    Poligonais de Curva: <input type="checkbox" name="check2" id="PCurcheckbox" checked> <br>
+	    Curvas:              <input type="checkbox" name="check3" id="Curcheckbox"  checked>  <br>
+	    <button onclick="comeco()" id="criar"  >Nova Curva     </button>
+	    <button onclick="anteriorReta()">       Curva Anterior </button>
+	    <button onclick="proximaReta()">        Próxima Curva  </button>
+	    <button onclick="apagarReta()">         Apagar Curva   </button>
+		<br>
+		<button onclick="removerPonto()" id="removerP">        Apagar Ponto   </button>
+		<button onclick="inserirPonto()" id="inserirP">        Inserir Ponto  </button>
+		<br>
+	    Quantidade de Avaliações: <input type="text" id="numAvaliacao" value = 15>
+	    <br>
+	    <br>
+    </body>
+	<script src="end.js"></script>
+</html>
