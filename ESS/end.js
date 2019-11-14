@@ -251,20 +251,22 @@ function redesenharTudo(){
 }
 
 function alteraPonto(){
-    console.log("RM", rmPonto, "MK", mkPonto);
-    if(rmPonto || mkPonto){                                 // Se um dos dois tiver apertado 
-        if(rmPonto ^ mkPonto){                              // XOR: Mas nao os dois apertados ao mesmo tempo
-            if(rmPonto){                                    // Se for o remover que estiver apertado   
-                document.getElementById("removerP").innerHTML = "Qual botão?";
-                let x = event.clientX-rect.left;
-                let y = event.clientY-rect.top;
-                console.log("Tentando remover o par:", x, y);
-                let rmPosicao = matriz[retaSelect].indexOf(x); // Tenho que saber onde ele sabe que foi clicado e passar como parâmetro no indexOf
-                if(rmPosicao > -1){
-                    matriz[retaSelect].splice(rmPosicao, 2); // dada a rmPosicao, removo 2 itens a partir dela = remove x e depois y
+    if(rmPonto || mkPonto){                                         		// Se um dos dois tiver apertado 
+        if(rmPonto ^ mkPonto){                                      		// XOR: Mas nao os dois apertados ao mesmo tempo
+            if(rmPonto){                                           			// Se for o remover que estiver apertado   
+				let rmvString = document.getElementById("removerV").value;  // Pega o valor do textfield remover ponto
+				let rmv = "Removido ponto " + rmvString + "!";
+				alert(rmv);
+                //document.getElementById("removerP").innerHTML = rmv;
+                console.log(rmv);
+                console.log(matriz[retaSelect]);
+                console.log("Tentando remover o ponto (x,y):", matriz[retaSelect][rmvString]);
+                if(rmvString > -1 && rmvString < matriz[retaSelect].length){
+                    matriz[retaSelect].splice(rmvString, 2);                // dada a rmPosicao, removo 2 itens a partir dela = remove x e depois y
                     redesenharTudo();
-                    document.getElementById("removerP").innerHTML = "Remover Ponto";
+                    //document.getElementById("removerP").innerHTML = "Remover Ponto";
                 }
+                
                 rmPonto = false;
             }
             else{
@@ -281,9 +283,11 @@ function alteraPonto(){
 function inserirPonto(){
     mkPonto = true;
     alteraPonto();
+    mkPonto = false;
 }
 
 function removerPonto(){
     rmPonto = true;
     alteraPonto();
+    rmPonto = false;
 }
