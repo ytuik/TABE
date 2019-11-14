@@ -10,7 +10,7 @@ var arrayCurva  = [];
 var retaAtual   = 0;
 var pontoAtual  = 0;
 var numAvalia   = 15;             // Avaliacoes, padrão 15
-var retaSelect  = 0;
+var retaSelect  = 0;              // É o referencial para proxima reta ou anterior, no caso select = a reta "atual"
 var comecoBool  = false;          // Variável do primeiro
 
 function comeco(){
@@ -25,9 +25,9 @@ function comeco(){
     document.getElementById("nCButton").value = "Parar Curva";
   } else {
     document.getElementById("nCButton").value = "Nova Curva";                 // Muda botão
-    comecoBool = false;                                                       // 
+    comecoBool = false;                                                       
     array.push(arrayPontos);                                                  // Guarda pontos ao vivo na reta
-
+    desenhar();
     //método de redesenhar tudo (ao vivo)
   }
 }
@@ -38,33 +38,53 @@ function mux(){
 	  let xClick = event.clientX - rect.left;
     let yClick = event.clientY - rect.top;
     arrayPontos.push({x: xClick, y: yClick});
-    drawPoint(xClick, yClick); // Esse é o drawPoint (ao vivo)
+    drawPoint(xClick, yClick, -1); // Esse é o drawPoint (ao vivo)
   }
 }
 
-function drawPoint(x, y){
+function drawPoint(){
   let ativadoPontos = document.getElementById("PConcheckbox");
   if(ativadoPontos["checked"]){
-    context.beginPath();
-    context.arc(x, y, 3, 0, 2 * Math.PI, true);
-    context.moveTo(x, y);
-    context.fill();
-    context.stroke();
-    context.strokeStyle = "#000000";
+    for(let a = 0; a < array.length; a++){
+      for(let b = 0; b < array[a].length; b++){
+        if(a != retaSelect){                           // Estamos na reta com cores diferentes
+          context.beginPath();
+          context.arc(array[retaSelect][b].x, array[retaSelect][b].y, 3, 0, 2 * Math.PI, true);
+          context.strokeStyle = "#000000";                  // Ponto selecionado tem cor verde
+          context.fill();
+          context.stroke();
+        } else {
+          context.beginPath();
+          context.arc(array[retaSelect][b].x, array[retaSelect][b].y, 3, 0, 2 * Math.PI, true);
+          context.strokeStyle = "#FF0000";                  // Ponto selecionado tem cor preta
+          context.fill();
+          context.stroke();
+        }
+      }
+    }
   }
 }
 
-function drawLine(arrayPontos){
+function drawLine(){
   let ativadoPoligonais = document.getElementById("PCurcheckbox");
   if(ativadoPoligonais["checked"]){
-    for(r = 1; r < arrayPontos.length; r++){
-      let x2 = arrayPontos[r-1].x;
-      let y2 = arrayPontos[r-1].y;
-      context.moveTo(arrayPontos[r].x, arrayPontos[r].y);
-      context.lineTo(x2, y2);
-      context.strokeStyle = "#000000";
-      context.fill();
-      context.stroke();
+    for(let a = 0; a < array.length; a++){
+      for(let b = 1; b < array[a].length - 1; b++){
+        context.moveTo(array[a][b].x, array[a][b].y);
+        if(a != retaSelect){                                     // Estamos na reta com cores diferentes
+          context.beginPath();
+          let x2 = array[a][b-1].x; let y2 = array[a][b-1].y;    // Faz a linha voltando
+          context.lineTo(x2, y2);
+          context.strokeStyle = "#000000";                       // Ponto selecionado tem cor verde
+          context.stroke();
+        } else {
+          context.beginPath();
+          let x2 = array[a][b-1].x; let y2 = array[a][b-1].y;    // Faz a linha voltando
+          context.lineTo(x2, y2);
+          context.strokeStyle = "#0000FF";                       // Ponto selecionado tem cor preta
+          context.stroke();
+        }
+      }
     }
   }
 }
@@ -72,40 +92,14 @@ function drawLine(arrayPontos){
 function proximaReta(){
   if(retaSelect < array.length -1){
     retaSelect++;
-    for(let reta = 0; reta < array.length; reta++){
-      if (reta != retaSelect){
-        drawLine(array[reta]);
-        for(let pontos = 0; pontos < array[reta].length; pontos++){
-          drawPoint(array[reta][pontos].x, array[reta][pontos].y);
-        }
-      } else {
-        drawLineSelect(array[retaSelect]);
-        for(let pontos = 0; pontos < array[reta].length; pontos++){
-          drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
-        }
-      }
-      deCasteljau(array[reta]);
-    }
+    redesenharTudo();
   }
 }
 
 function anteriorReta(){
   if(retaSelect > 0){
     retaSelect--;
-    for(let reta = 0; reta < array.length; reta++){
-      if (reta != retaSelect){
-        drawLine(array[reta]);
-        for(let pontos = 0; pontos < array[reta].length; pontos++){
-          drawPoint(array[reta][pontos].x, array[reta][pontos].y);
-        }
-      } else {
-        drawLineSelect(array[retaSelect]);
-        for(let pontos = 0; pontos < array[reta].length; pontos++){
-          drawPointSelect(array[reta][pontos].x, array[reta][pontos].y);
-        }
-      }
-      deCasteljau(array[reta]);
-    }
+    redesenharTudo();
   }
 }
 
@@ -129,70 +123,82 @@ function limparTela(){
 
 function curvaBezier(arrayPontos, k){
   let pMedio = arrayPontos.length/2;
-  var curvaX = [];
-  var curvaY = [];
-  var output = [];
+  var curva = [];
 
-  for(let pX = 0; (pX*2) < arrayPontos.length; pX++){
-    curvaX.push(Math.floor(arrayPontos[pX*2].x));
+  for(let p = 0; (p*2) < arrayPontos.length; p++){
+    curva.push({x: Math.floor(arrayPontos[p*2].x), y: Math.floor(arrayPontos[p*2].y)});
   }
 
-  for(let pY = 0; (pY*2) < arrayPontos.length; pY++){
-    curvaY.push(Math.floor(arrayPontos[(pY*2)].y));
-  }
-
-  for(let l = 1; l <= pMedio; l++){
-    for(var l2 = 0; l2 <= (pMedio - l); l2++){
-      curvaX[l2] = (1-k)*curvaX[l2] + k*curvaX[l2+1];
-      curvaY[l2] = (1-k)*curvaY[l2] + k*curvaY[l2+1];
+  for(let l = 0; l <= pMedio; l++){
+    for(var l2 = 1; l2 <= (pMedio - l); l2++){
+      curva[l2] = {x: (1-k)*curvaX[l2] + k*curvaX[l2+1], y: (1-k)*curvaY[l2] + k*curvaY[l2+1]};
     }
   }
 
-  output.push(curvaX[0]);
-  output.push(curvaY[0]);
-
-  return output;
+  return curva;
 }
 
-function deCasteljau(arrayInput){
+function deCasteljau(arrayInput, ref){
   pontosCas = [];
   let ativadoCurva = document.getElementById("Curcheckbox");
   if(ativadoCurva["checked"]){
-
-    arrayCurva = arrayPontos;
+    arrayCurva = arrayInput;
 
     for(var k = 0; k < arrayPontos.length; k++){
 
       var canvas  = document.getElementById("meuCanvas");
       var context = canvas.getContext("2d");
-
       context.beginPath();
       context.moveTo(arrayCurva[0].x, arrayCurva[0].y);
 
       for(var i = 0; i <= 1; i+=(1/numAvalia)){
-        
         pontosBezier = curvaBezier(arrayPontos, i);
 
-        if(retaAtual == k){
-          context.strokeStyle = '#ffa500';
-          context.lineTo(pontosBezier[0], pontosBezier[1]);
+        if(retaSelect == k){
+          context.strokeStyle = '#00FF00';          // Reta difenciada de cor verde
+          context.lineTo(pontosBezier[0].x, pontosBezier[0].y);
           context.stroke();
         } else {
-          context.strokeStyle = '#ffa600';
-          context.lineTo(pontosBezier[0], pontosBezier[1]);
+          context.strokeStyle = '#000000';
+          context.lineTo(pontosBezier[0].x, pontosBezier[0].y);
           context.stroke();
         }
-
       }
-      if(retaAtual == k){
-        context.strokeStyle = '#ffa600';
+
+      if(retaSelect == k){
+        context.strokeStyle = '#00FF00';
         context.lineTo(arrayCurva[arrayCurva.length],arrayCurva[arrayCurva.length+1]);
         context.stroke();
-      }else{
-        context.strokeStyle = '#ffa600';
+      } else {
+        context.strokeStyle = '#000000';
         context.lineTo(arrayCurva[arrayCurva.length],arrayCurva[arrayCurva.length+1]);
         context.stroke();
       }
     }
   }
 }
+
+function mudou(){
+  redesenharTudo();
+  return;
+}
+
+function redesenharTudo(){                                  // ref, referencial = -1 se não for nenhuma; qualquer outro valor é a reta selecionada
+  context.fillStyle = "#FFFFFF";
+  context.beginPath();
+  context.fillRect(0,0,400,400);
+  context.stroke();
+  drawPoint();
+  drawLine();
+  deCasteljau();
+  context.strokeStyle = "#000000";
+}
+
+// Cores:
+// Preto     = #000000
+// Vermelho  = #FF0000
+// Verde     = #00FF00
+// Azul      = #0000FF
+// Amarelo   = #FFFF00
+// Roxo      = #993399
+// Laranja   = #FF7F00
