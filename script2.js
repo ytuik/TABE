@@ -27,8 +27,7 @@ function comeco(){
     document.getElementById("nCButton").value = "Nova Curva";                 // Muda botão
     comecoBool = false;                                                       
     array.push(arrayPontos);                                                  // Guarda pontos ao vivo na reta
-    desenhar();
-    //método de redesenhar tudo (ao vivo)
+    redesenharTudo();
   }
 }
 
@@ -38,7 +37,20 @@ function mux(){
 	  let xClick = event.clientX - rect.left;
     let yClick = event.clientY - rect.top;
     arrayPontos.push({x: xClick, y: yClick});
-    drawPoint(xClick, yClick, -1); // Esse é o drawPoint (ao vivo)
+    drawPointAoVivo();
+  }
+}
+
+function drawPointAoVivo(){
+  let ativadoPontos = document.getElementById("PConcheckbox");
+  if(ativadoPontos["checked"]){
+    for(let a = 0; a < arrayPontos.length; a++){
+      context.beginPath();
+      context.arc(arrayPontos[a].x, arrayPontos[a].y, 3, 0, 2 * Math.PI, true);
+      context.strokeStyle = "#000000";                  // Ponto selecionado tem cor verde
+      context.fill();
+      context.stroke();
+    }
   }
 }
 
@@ -47,16 +59,18 @@ function drawPoint(){
   if(ativadoPontos["checked"]){
     for(let a = 0; a < array.length; a++){
       for(let b = 0; b < array[a].length; b++){
-        if(a != retaSelect){                           // Estamos na reta com cores diferentes
+        if(a != retaSelect){                                // Estamos na reta com cores diferentes
+          context.strokeStyle = "#000000";                  // Ponto selecionado tem cor verde
           context.beginPath();
           context.arc(array[retaSelect][b].x, array[retaSelect][b].y, 3, 0, 2 * Math.PI, true);
-          context.strokeStyle = "#000000";                  // Ponto selecionado tem cor verde
+          context.fillStyle = "#000000";
           context.fill();
           context.stroke();
         } else {
+          context.strokeStyle = "#FF0000";                  // Ponto selecionado tem cor preta
           context.beginPath();
           context.arc(array[retaSelect][b].x, array[retaSelect][b].y, 3, 0, 2 * Math.PI, true);
-          context.strokeStyle = "#FF0000";                  // Ponto selecionado tem cor preta
+          context.fillStyle = "#FF0000";
           context.fill();
           context.stroke();
         }
@@ -70,18 +84,18 @@ function drawLine(){
   if(ativadoPoligonais["checked"]){
     for(let a = 0; a < array.length; a++){
       for(let b = 1; b < array[a].length - 1; b++){
-        context.moveTo(array[a][b].x, array[a][b].y);
+        context.moveTo(array[a][b-1].x, array[a][b-1].y);
         if(a != retaSelect){                                     // Estamos na reta com cores diferentes
-          context.beginPath();
-          let x2 = array[a][b-1].x; let y2 = array[a][b-1].y;    // Faz a linha voltando
-          context.lineTo(x2, y2);
           context.strokeStyle = "#000000";                       // Ponto selecionado tem cor verde
+          context.beginPath();
+          let x2 = array[a][b].x; let y2 = array[a][b].y;    // Faz a linha voltando
+          context.lineTo(x2, y2);
           context.stroke();
         } else {
+          context.strokeStyle = "#0000FF";                       // Ponto selecionado tem cor preta
           context.beginPath();
           let x2 = array[a][b-1].x; let y2 = array[a][b-1].y;    // Faz a linha voltando
           context.lineTo(x2, y2);
-          context.strokeStyle = "#0000FF";                       // Ponto selecionado tem cor preta
           context.stroke();
         }
       }
@@ -129,9 +143,9 @@ function curvaBezier(arrayPontos, k){
     curva.push({x: Math.floor(arrayPontos[p*2].x), y: Math.floor(arrayPontos[p*2].y)});
   }
 
-  for(let l = 0; l <= pMedio; l++){
-    for(var l2 = 1; l2 <= (pMedio - l); l2++){
-      curva[l2] = {x: (1-k)*curvaX[l2] + k*curvaX[l2+1], y: (1-k)*curvaY[l2] + k*curvaY[l2+1]};
+  for(let l = 1; l <= pMedio; l++){
+    for(var l2 = 0; l2 <= (pMedio - l); l2++){
+      curva[l2] = {x: (1-k)*curva[l2] + k*curva[l2+1], y: (1-k)*curva[l2] + k*curva[l2+1]};
     }
   }
 
@@ -188,8 +202,8 @@ function redesenharTudo(){                                  // ref, referencial 
   context.beginPath();
   context.fillRect(0,0,400,400);
   context.stroke();
-  drawPoint();
   drawLine();
+  drawPoint();
   deCasteljau();
   context.strokeStyle = "#000000";
 }
