@@ -8,7 +8,7 @@
 	</head>
 
 	<body onclick="mudou()">
-	    <canvas onclick="criandoReta()" id="meuCanvas" width="400" height="400" style = "border: 3px solid#000000;"></canvas>
+	    <canvas onclick="criandoReta()" id="meuCanvas" width="1000" height="400" style = "border: 3px solid#000000;"></canvas>
 	    <br>
 	    Pontos de Controle:  <input type="checkbox" name="check1" id="PConcheckbox" checked> <br>
 	    Poligonais de Curva: <input type="checkbox" name="check2" id="PCurcheckbox" checked> <br>
@@ -19,7 +19,8 @@
 	    <button class="button remover" onclick="apagarReta()">         Apagar Curva   </button>
 		<br>
 		<br>
-	    Quantidade de Avaliações: <input type="text" id="numAvaliacao" value = 15>
+		Quantidade de Avaliações: <input type="text" id="numAvaliacao" value = 15>
+		<button onclick="mudou()"> Atualizar</button>
 	    <br><br>
 	    Remover ponto: <input type="text" id="removerV" value = -1>
 	    <br>
@@ -39,7 +40,7 @@
 	    <br>
 	    Legenda:<br>
 		<!--<div class="legenda azul"></div><br><br>-->
-		<div class="legenda amarelo"></div>Reta atual formada pelos pontos<br><br>
+		<div class="legenda amarelo"></div>Poligono atual formado pelos pontos<br><br>
 		<div class="legenda laranja"></div>Curva de Bezier da reta atual<br><br> 
 		<!--<div class="legenda roxo"></div><br><br>-->
 		<div class="legenda vinho"></div>Pontos da reta atual<br><br>
