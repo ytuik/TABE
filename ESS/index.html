@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 
+	<link rel="stylesheet" type="text/css" href="styles.css">
 	<head>
 		<meta charset="utf-8">
 		<title>@bmgs e @vss2</title>
-
 	</head>
 
 	<body onclick="mudou()">
@@ -13,21 +13,35 @@
 	    Pontos de Controle:  <input type="checkbox" name="check1" id="PConcheckbox" checked> <br>
 	    Poligonais de Curva: <input type="checkbox" name="check2" id="PCurcheckbox" checked> <br>
 	    Curvas:              <input type="checkbox" name="check3" id="Curcheckbox"  checked>  <br>
-	    <button onclick="comeco()" id="criar"  >Nova Curva     </button>
+	    <button class="button adicionar" onclick="comeco()" id="criar">  Nova Curva     </button>
 	    <button onclick="anteriorReta()">       Curva Anterior </button>
 	    <button onclick="proximaReta()">        Próxima Curva  </button>
-	    <button onclick="apagarReta()">         Apagar Curva   </button>
+	    <button class="button remover" onclick="apagarReta()">         Apagar Curva   </button>
 		<br>
-		<button onclick="inserirPonto()" id="inserirP">        Inserir Ponto  </button>
 		<br>
 	    Quantidade de Avaliações: <input type="text" id="numAvaliacao" value = 15>
 	    <br><br>
 	    Remover ponto: <input type="text" id="removerV" value = -1>
 	    <br>
-		<button onclick="removerPonto()" id="removerP">        Apagar Ponto   </button>
-	    Obs: -1 não remove nenhum ponto
+		<button class="button remover" onclick="removerPonto()" id="removerP">        Apagar Ponto   </button>
+	    Obs: -1 não remove nenhum ponto. Input: (0..n-1)
+		<br>
+		<br>
+		Inserir ponto: <input type="text" id="inserirV" value = -1>
+		<br>
+		<button class="button adicionar" onclick="inserirPonto()" id="inserirP">        Inserir Ponto  </button>
+		Obs: -1 insere no fim da reta. Input: (0..n-1)
+		<br>
+		Obs2: defina a posição antes de clicar no botão, depois clique no canvas
 	    <br>
 	    <br>
+	    Legenda:<br>
+		<!--<div class="legenda azul"></div><br><br>-->
+		<div class="legenda amarelo"></div>Reta atual formada pelos pontos<br><br>
+		<div class="legenda laranja"></div>Curva de Bezier da reta atual<br><br> 
+		<!--<div class="legenda roxo"></div><br><br>-->
+		<div class="legenda vinho"></div>Pontos da reta atual<br><br>
+		<div class="legenda preto"></div>Reta não selecionada ou pontos não selecionados
     </body>
 	<script src="end.js"></script>
 </html>
