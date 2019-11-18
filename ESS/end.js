@@ -62,11 +62,11 @@ function mudou(){
 }
 
 function criandoReta(){
-	if (mkPonto){
-		pontoNovos = [];
-		pontoNovos.push(event.clientX-rect.left);
-		pontoNovos.push(event.clientY-rect.top);
-		console.log("Entrei aqui");
+	if (document.getElementById("inserirP").checked == true){
+        matriz[retaSelect].push(event.clientX-rect.left);
+        matriz[retaSelect].push(event.clientY-rect.top);
+        console.log("Entrei aqui");
+        document.getElementById("inserirP").checked = false;
 		mkPonto = false;
 		return;
 	}
@@ -174,7 +174,7 @@ function drawLine(){
                     ctx.stroke();
                 }
             } else {
-                ctx.strokeStyle = '#FFC300';
+                ctx.strokeStyle = '#000000';
                 ctx.beginPath();
                 for(var i = 0; ((i*2)+1)<arraux.length;i++){
                     ctx.lineTo(arraux[i*2],arraux[(i*2)+1]);
@@ -263,17 +263,21 @@ function alteraPonto(){
     if(rmPonto || mkPonto){                                         		 // Se um dos dois tiver apertado 
         if(rmPonto ^ mkPonto){                                      		 // XOR: Mas nao os dois apertados ao mesmo tempo
             if(rmPonto){                                           			 // Se for o remover que estiver apertado   
-				let rmvString = document.getElementById("removerV").value;  // Pega o valor do textfield remover ponto
-				let rmv = "Removido ponto " + rmvString + "!";
-				alert(rmv);
+				let rmvString = document.getElementById("removerV").value;   // Pega o valor do textfield remover ponto
                 //document.getElementById("removerP").innerHTML = rmv;
-                console.log(rmv);
                 console.log(matriz[retaSelect]);
-                console.log("Tentando remover o ponto (x,y):", matriz[retaSelect][rmvString]);
-                if(rmvString > -1 && rmvString < matriz[retaSelect].length){
-                    matriz[retaSelect].splice(rmvString, 2);                 // dada a rmPosicao, removo 2 itens a partir dela = remove x e depois y
+                console.log("Tentando remover o ponto (x,y):", matriz[retaSelect][rmvString-1],matriz[retaSelect][rmvString]);
+                if(rmvString > -1 && rmvString < matriz[retaSelect].length/2){
+                    matriz[retaSelect].splice(rmvString*2, 2);                 // dada a rmPosicao, removo 2 itens a partir dela = remove x e depois y
+                    console.log(matriz[retaSelect]);
                     redesenharTudo();
+                    let rmv = "Removido ponto " + rmvString + "!";
+                    alert(rmv);
+                    console.log(rmv);
+                    document.getElementById("removerV").value = -1;
                     //document.getElementById("removerP").innerHTML = "Remover Ponto";
+                } else {
+                    alert("Erro: tu deve ter tentado remover onde não existe nada!");
                 }
                 
                 rmPonto = false;
@@ -313,9 +317,6 @@ function alteraPonto(){
 
 function inserirPonto(){
     mkPonto = true;
-    criandoReta();
-    alteraPonto();
-    //mkPonto = false;
 }
 
 function removerPonto(){
