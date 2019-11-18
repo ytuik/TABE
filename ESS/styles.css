@@ -1,3 +1,4 @@
+
 html:hover {
   background-color: #AAB3AB;
   -webkit-transition: background-color 10s ease-out;
@@ -26,6 +27,7 @@ button {
   border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
+  font-family: Garamond;
 }
 
 .adicionar {
@@ -38,10 +40,11 @@ button {
 
 canvas {
   background-color: #FFFFFF;
+  cursor: crosshair;
 }
 
 html {
-  font-family: Arial;
+  font-family: Garamond;
   font-size: 18px;
   background-color: #c7d1c8;
 }
