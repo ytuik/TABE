@@ -12,6 +12,7 @@ var avaliat = 15;
 var dragok = false;
 var lastX;
 var lastY;
+var pontoNovos = [];
 
 var rmPonto = false;
 var mkPonto = false;
@@ -61,6 +62,14 @@ function mudou(){
 }
 
 function criandoReta(){
+	if (mkPonto){
+		pontoNovos = [];
+		pontoNovos.push(event.clientX-rect.left);
+		pontoNovos.push(event.clientY-rect.top);
+		console.log("Entrei aqui");
+		mkPonto = false;
+		return;
+	}
     if(comecoBool){
         matrizaux.push(event.clientX-rect.left);
         matrizaux.push(event.clientY-rect.top);
@@ -129,10 +138,10 @@ function drawPoint(){
             var arraux = matriz[j];
             if(retaSelect == j){
                 for(var i = 0; ((i*2)+1)<arraux.length;i++){
-                    ctx.strokeStyle = '#FF0000';
+                    ctx.strokeStyle = '#900C3E';
                     ctx.beginPath();
                     ctx.arc(arraux[i*2],arraux[(i*2)+1],5, 0, 2 * Math.PI);
-                    ctx.fillStyle = '#FF0000';
+                    ctx.fillStyle = '#900C3E';
                     ctx.fill();
                     ctx.stroke();
                     
@@ -158,14 +167,14 @@ function drawLine(){
             var arraux = matriz[j];
             ctx.moveTo(arraux[0],arraux[1]);
             if(retaSelect === j){
-                ctx.strokeStyle = '#2bff00';
+                ctx.strokeStyle = '#FFC300';
                 ctx.beginPath();
                 for(var i = 0; ((i*2)+1)<arraux.length;i++){
                     ctx.lineTo(arraux[i*2],arraux[(i*2)+1]);
                     ctx.stroke();
                 }
             } else {
-                ctx.strokeStyle = '#000000';
+                ctx.strokeStyle = '#FFC300';
                 ctx.beginPath();
                 for(var i = 0; ((i*2)+1)<arraux.length;i++){
                     ctx.lineTo(arraux[i*2],arraux[(i*2)+1]);
@@ -214,7 +223,7 @@ function deCasteljau(){
             for(var i = 0; i<=1;i+=(1/avaliat)){
                 pointes = bezier(i,arraux);
                 if(retaSelect === j){
-                    ctx.strokeStyle = '#0084ff';
+                    ctx.strokeStyle = '#FF5733';
                     ctx.lineTo(pointes[0],pointes[1]);
                     ctx.stroke();
                 } else {
@@ -224,7 +233,7 @@ function deCasteljau(){
                 }
             }
             if(retaSelect === j){
-                ctx.strokeStyle = '#0084ff';
+                ctx.strokeStyle = '#FF5733';
 
                 ctx.lineTo(arraux[arraux.length-2],arraux[arraux.length-1]);
                 ctx.stroke();
@@ -251,9 +260,9 @@ function redesenharTudo(){
 }
 
 function alteraPonto(){
-    if(rmPonto || mkPonto){                                         		// Se um dos dois tiver apertado 
-        if(rmPonto ^ mkPonto){                                      		// XOR: Mas nao os dois apertados ao mesmo tempo
-            if(rmPonto){                                           			// Se for o remover que estiver apertado   
+    if(rmPonto || mkPonto){                                         		 // Se um dos dois tiver apertado 
+        if(rmPonto ^ mkPonto){                                      		 // XOR: Mas nao os dois apertados ao mesmo tempo
+            if(rmPonto){                                           			 // Se for o remover que estiver apertado   
 				let rmvString = document.getElementById("removerV").value;  // Pega o valor do textfield remover ponto
 				let rmv = "Removido ponto " + rmvString + "!";
 				alert(rmv);
@@ -262,7 +271,7 @@ function alteraPonto(){
                 console.log(matriz[retaSelect]);
                 console.log("Tentando remover o ponto (x,y):", matriz[retaSelect][rmvString]);
                 if(rmvString > -1 && rmvString < matriz[retaSelect].length){
-                    matriz[retaSelect].splice(rmvString, 2);                // dada a rmPosicao, removo 2 itens a partir dela = remove x e depois y
+                    matriz[retaSelect].splice(rmvString, 2);                 // dada a rmPosicao, removo 2 itens a partir dela = remove x e depois y
                     redesenharTudo();
                     //document.getElementById("removerP").innerHTML = "Remover Ponto";
                 }
@@ -270,10 +279,32 @@ function alteraPonto(){
                 rmPonto = false;
             }
             else{
-                document.getElementById("removerP").innerHTML = "Onde?";
-                criandoReta();
-                document.getElementById("removerP").innerHTML = "Inserir Ponto";
-                mkPonto = false;
+                let insString = document.getElementById("inserirV").value;
+                
+                let xClick = pontoNovos[0];		// Pega o posição X
+				let yClick = pontoNovos[1];		// Pega o posição Y
+                
+                console.log(xClick, yClick);
+                
+				if(insString == -1){
+					matrizaux.push(xClick);					// Se for posição -1, como dito na Obs, coloco no fim
+					matrizaux.push(yClick);
+				} else {
+					var matrizTemp = matrizaux;									// Copio a matrizaux usada em drawPointAoVivo
+					var matrizTempFim = matrizTemp.slice(insString);			// Corto a matrizaux de onde o cara quer botar o ponto até o fim
+					if(insString != 0){											// Caso ele não queira colocar no lugar do primeiro
+						matrizTempInicio = matrizTemp.slice(0, insString-1);	// Corto do começo 0 até n-1: onde o cara quer inserir
+						matrizTempInicio.push(xClick);							// Insiro no lugar N do array o ponto clicado na tela
+						matrizTempInicio.push(yClick);							
+						matrizTemp = matrizTemp.concat(matrizTempInicio, matrizTempFim); // Concateno os arrays
+					} 
+					matrizaux = matrizTemp;
+				}
+                let ins = "Inserido ponto " + insString + "!";
+                alert(ins);
+                redesenharTudo();
+                document.getElementById("inserirP").innerHTML = "Inserir Ponto";
+                //mkPonto = false;
             }
         } return;
     }
@@ -282,8 +313,9 @@ function alteraPonto(){
 
 function inserirPonto(){
     mkPonto = true;
+    criandoReta();
     alteraPonto();
-    mkPonto = false;
+    //mkPonto = false;
 }
 
 function removerPonto(){
