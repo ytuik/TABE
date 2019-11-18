@@ -66,7 +66,7 @@ function criandoReta(){
         matriz[retaSelect].push(event.clientX-rect.left);
         matriz[retaSelect].push(event.clientY-rect.top);
         console.log("Entrei aqui");
-        document.getElementById("inserirP").checked = false;
+        //document.getElementById("inserirP").checked = false;
 		mkPonto = false;
 		return;
 	}
@@ -250,7 +250,7 @@ function redesenharTudo(){
     if(!comecoBool){
         ctx.fillStyle = "#FFFFFF";
         ctx.beginPath();
-        ctx.fillRect(0,0,400,400);
+        ctx.fillRect(0,0,1000,400);
         ctx.stroke();
         drawLine();
         drawPoint();
