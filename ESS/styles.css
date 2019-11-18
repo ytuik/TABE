@@ -36,6 +36,10 @@ button {
   background-color: #f44336;
 }
 
+canvas {
+  background-color: #FFFFFF;
+}
+
 html {
   font-family: Arial;
   font-size: 18px;
